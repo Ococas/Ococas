@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-stone-900;
+  }
+}
+
+@layer components {
+  .font-serif {
+    font-family: "Playfair Display", Georgia, serif;
+  }
+
+  .section-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-red-600/20 to-transparent my-8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
