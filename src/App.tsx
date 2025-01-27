@@ -483,12 +483,12 @@ function App() {
               </div>
 
               {/* Contenu de la modal */}
-              <div className="p-4">
+              <div className="p-4 h-full">
                 {pdfUrl ? (
                   <iframe
                     src={pdfUrl}
                     title="Menu PDF"
-                    className="w-full h-96 border rounded-md"
+                    className="w-full h-[40rem] border rounded-md"
                   ></iframe>
                 ) : (
                   <p className="text-center text-gray-600">
