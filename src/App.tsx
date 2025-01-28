@@ -368,7 +368,7 @@ function App() {
 
           {/* Amenities Banner */}
           <AnimatedSection delay={0.1}>
-            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm mb-8 flex justify-center gap-8">
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm mb-8 flex flex-col md:flex-row justify-center items-center gap-4">
               <div className="flex items-center gap-2">
                 <Wifi className="w-5 h-5 text-red-600" />
                 <span>{t("contact.info.amenities.wifi")}</span>
@@ -592,7 +592,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 bg-stone-100">
+      <section className="py-20 px-4 bg-stone-100">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <SectionTitle
@@ -703,7 +703,7 @@ function App() {
 
             {/* Contact Form */}
             <AnimatedSection delay={0.4}>
-              <div className="bg-white p-8 rounded-lg shadow-md">
+              <div className="bg-white p-8 rounded-lg shadow-md" id="contact">
                 <h3 className="text-2xl font-serif mb-2">
                   {t("contact.form.title")}
                 </h3>
