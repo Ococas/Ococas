@@ -45,6 +45,7 @@ function App() {
   const [formStatus, setFormStatus] = useState("");
   const [resultMessage, setResultMessage] = useState("");
   const [heroData, setHeroData] = useState(null);
+  const [siteSettings, setSiteSettings] = useState(null);
 
   useEffect(() => {
     client
@@ -108,7 +109,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Requête Sanity pour récupérer les données du Hero
     client
       .fetch(
         `*[_type == "hero"][0]{
@@ -163,23 +163,26 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToNextSection = () => {
-    const aboutSection = document.getElementById("about");
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  useEffect(() => {
+    client
+      .fetch(
+        `*[_type == "siteSettings"][0]{
+          openingHours,
+          socialLinks
+        }`
+      )
+      .then((data) => setSiteSettings(data))
+      .catch(console.error);
+  }, []);
 
-  const handleReservation = () => {
-    window.open("https://thefork.com", "_blank");
-  };
-
-  const handleDirections = () => {
-    window.open(
-      "https://www.google.com/maps/dir/?api=1&destination=R.+dos+Correeiros+177,+1100-571+Lisboa,+Portugal",
-      "_blank"
-    );
-  };
+  const currentLang =
+    language === "en"
+      ? "english"
+      : language === "pt"
+      ? "portuguese"
+      : "english";
+  const openingHours =
+    siteSettings?.openingHours?.[currentLang] || "Horaires non disponibles";
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -226,12 +229,12 @@ function App() {
               >
                 {t("nav.contact")}
               </a>
-              <button
-                onClick={handleReservation}
+              <a
+                href="#contact"
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
               >
                 {t("nav.reserve")}
-              </button>
+              </a>
               <LanguageToggle language={language} onToggle={toggleLanguage} />
             </div>
 
@@ -283,12 +286,12 @@ function App() {
             >
               {t("nav.contact")}
             </a>
-            <button
-              onClick={handleReservation}
+            <a
+              href="#contact"
               className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
             >
               {t("nav.reserve")}
-            </button>
+            </a>
           </div>
         </motion.div>
       </nav>
@@ -327,12 +330,12 @@ function App() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col items-center gap-4"
           >
-            <button
-              onClick={() => alert("Réserver !")}
+            <a
+              href="#contact"
               className="px-8 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-lg"
             >
               {t("hero.cta")}
-            </button>
+            </a>
             <div className={`text-sm font-medium text-green-400`}>
               {t("hero.open")}
               <span className="text-white/80 ml-2">{t("hero.closesAt")}</span>
@@ -626,7 +629,7 @@ function App() {
                       <h4 className="font-medium mb-1">
                         {t("contact.info.schedule")}
                       </h4>
-                      <p>{t("contact.hours")}</p>
+                      <p>{openingHours}</p>
                     </div>
                   </div>
 
@@ -917,18 +920,26 @@ function App() {
                 {t("footer.followUs")}
               </h4>
               <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-red-400 transition-colors"
-                >
-                  <Facebook className="w-6 h-6" />
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-red-400 transition-colors"
-                >
-                  <Instagram className="w-6 h-6" />
-                </a>
+                {siteSettings?.socialLinks?.facebook && (
+                  <a
+                    href={siteSettings.socialLinks.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-red-400 transition-colors"
+                  >
+                    <Facebook className="w-6 h-6" />
+                  </a>
+                )}
+                {siteSettings?.socialLinks?.instagram && (
+                  <a
+                    href={siteSettings.socialLinks.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-red-400 transition-colors"
+                  >
+                    <Instagram className="w-6 h-6" />
+                  </a>
+                )}
               </div>
             </div>
           </div>
