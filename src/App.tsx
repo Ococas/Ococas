@@ -288,7 +288,7 @@ function App() {
             </a>
             <a
               href="#contact"
-              className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+              className="block w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
             >
               {t("nav.reserve")}
             </a>
